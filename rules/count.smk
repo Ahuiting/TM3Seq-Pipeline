@@ -5,6 +5,8 @@ rule count:
     output:
         counts=config["working_dir"] + "/featurecounts/{sample}_counts.tsv",
         summary=config["working_dir"] + "/featurecounts/{sample}_counts.tsv.summary"
+    params:
+        ends="" if if_SE else "-p"
     log:
         log_dir + "/featurecounts/{sample}.log"
     threads:
@@ -14,6 +16,7 @@ rule count:
     shell:
         "ln -s {input.bam:q} '{wildcards.sample}.bam' && "
         "featureCounts "
+        "{params.ends} "
         "-t {config[params][featurecounts][feature_type]} "
         "-g {config[params][featurecounts][attribute_type]} "
         "-a {input.gtf:q} "
