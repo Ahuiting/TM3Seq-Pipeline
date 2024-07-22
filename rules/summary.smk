@@ -24,7 +24,8 @@ rule multiqc:
     params:
         multiqc="--cl-config \"trimmomatic: {s_name_filenames: true}\"",  # Optional: extra parameters for multiqc.
         output_dir=config['results_dir'],
-        output_name="multiqc.html"
+        output_name="multiqc.html",
+        if_SE=if_SE,
     log:
         log_dir + "/multiqc.log"
     conda:
@@ -36,4 +37,5 @@ rule multiqc:
         " -o {params.output_dir:q} "
         " -n {params.output_name:q} "
         " {input:q}"
-        " > {log:q} 2>&1"
+        " > {log:q} 2>&1 && "
+        "python3 rules/RNA_QCtable.py -m {params.output_dir} -s {params.if_SE} -o {params.output_dir}"
