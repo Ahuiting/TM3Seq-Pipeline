@@ -6,8 +6,6 @@
 #     shell:
 #         "cp {input:q} {output:q}"
 
-from os import path
-
 #def get_multiqc_dirs(wildcards):
 #    return set(path.dirname(fp) for fp in wildcards.input)
 #    return samples[wildcards.sample]
@@ -15,10 +13,10 @@ from os import path
 
 rule multiqc:
     input:
-        expand(log_dir + "/trimmomatic/{sample}.log", sample = SAMPLES_ALL if if_SE else SAMPLES_PAIRED),
-        expand(config["working_dir"] + "/star/{sample}/Log.final.out", sample = SAMPLES_ALL if if_SE else SAMPLES_PAIRED),
-        expand(config["working_dir"] + "/featurecounts/{sample}_counts.tsv.summary", sample = SAMPLES_ALL if if_SE else SAMPLES_PAIRED),
-        expand(config["working_dir"] + "/fastqc/{sample}_fastqc.zip", sample=SAMPLES_ALL)
+        expand(log_dir + "/trimmomatic/{sample}_RNA.log", sample = SAMPLES_ALL if if_SE else SAMPLES_PAIRED),
+        expand(config["working_dir"] + "/star/{sample}/{sample}_RNA_Log.final.out", sample = SAMPLES_ALL if if_SE else SAMPLES_PAIRED),
+        expand(config["working_dir"] + "/featurecounts/{sample}_RNA_counts.tsv.summary", sample = SAMPLES_ALL if if_SE else SAMPLES_PAIRED),
+        expand(config["working_dir"] + "/fastqc/{sample}_RNA_fastqc.zip", sample=SAMPLES_ALL)
     output:
         config["results_dir"] + "/multiqc.html"
     params:
@@ -37,5 +35,6 @@ rule multiqc:
         " -o {params.output_dir:q} "
         " -n {params.output_name:q} "
         " {input:q}"
-        " > {log:q} 2>&1 && "
-        "python3 rules/RNA_QCtable.py -m {params.output_dir} -s {params.if_SE} -o {params.output_dir}"
+        " > {log:q} 2>&1 "
+        #"python3 rules/RNA_QCtable.py -m {params.output_dir} -s {params.if_SE} -o {params.output_dir}"
+        
