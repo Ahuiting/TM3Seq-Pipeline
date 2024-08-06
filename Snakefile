@@ -18,10 +18,6 @@ SAMPLES_PAIRED = glob_wildcards(config['fastq_file_pattern']+"/{sample}_R1_001.f
 log_dir = config["results_dir"] + "/logs"
 
 def get_fastq(wildcards):
-    print  (all("R1" not in name for name in samples.keys()) or all("R2" not in name for name in samples.keys())) 
-    print("if_SE",if_SE)
-    print("config",config['if_SE'] )
-    print (config['if_SE'] == "None")
     return samples[wildcards.sample]
     
 if_SE = (all("R1" not in name for name in samples.keys()) or all("R2" not in name for name in samples.keys())) if config['if_SE'] == "None" else config['if_SE']
