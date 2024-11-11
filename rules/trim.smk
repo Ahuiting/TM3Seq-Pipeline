@@ -3,12 +3,12 @@ if if_SE:
         input:
             get_fastq
         output:
-            fastq=config["working_dir"] + "/trimmed/{sample}_RNA_trimmed.fastq.gz",
+            fastq=config["working_dir"] + "/trimmed/{sample}_trimmed.fastq.gz",
         params:
             trimmer=" ".join(config["params"]["trimmomatic"]["trimmers"]),
             extra=config["params"]["trimmomatic"]["extra"]
         log:
-            log_dir + "/trimmomatic/{sample}_RNA.log"
+            log_dir + "/trimmomatic/{sample}.log"
         threads:
             32
         conda:
@@ -25,15 +25,15 @@ else:
         input:
             get_paired_fastq
         output:
-            paired1=config["working_dir"] + "/trimmed/{sample}_RNA_R1_paired.fastq.gz",
-            unpaired1=config["working_dir"] + "/trimmed/{sample}_RNA_R1_unpaired.fastq.gz",
-            paired2=config["working_dir"] + "/trimmed/{sample}_RNA_R2_paired.fastq.gz",
-            unpaired2=config["working_dir"] + "/trimmed/{sample}_RNA_R2_unpaired.fastq.gz"
+            paired1=config["working_dir"] + "/trimmed/{sample}_R1_paired.fastq.gz",
+            unpaired1=config["working_dir"] + "/trimmed/{sample}_R1_unpaired.fastq.gz",
+            paired2=config["working_dir"] + "/trimmed/{sample}_R2_paired.fastq.gz",
+            unpaired2=config["working_dir"] + "/trimmed/{sample}_R2_unpaired.fastq.gz"
         params:
             trimmer=" ".join(config["params"]["trimmomatic"]["trimmers"]),
             extra=config["params"]["trimmomatic"]["extra"]
         log:
-            log_dir + "/trimmomatic/{sample}_RNA.log"
+            log_dir + "/trimmomatic/{sample}.log"
         threads:
             32
         conda:

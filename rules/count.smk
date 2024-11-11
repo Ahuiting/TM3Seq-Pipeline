@@ -1,14 +1,14 @@
 rule count:
     input:
         gtf=config["ref"]["annotation"],
-        bam=config["working_dir"] + "/nudup/{sample}.sorted.markdup.bam" if config["umi"]["mark_umi_duplicates"] else config["working_dir"] + "/star/{sample}/{sample}_RNA_Aligned.sortedByCoord.out.bam"
+        bam=config["working_dir"] + "/nudup/{sample}.sorted.markdup.bam" if config["umi"]["mark_umi_duplicates"] else config["working_dir"] + "/star/{sample}/{sample}_Aligned.sortedByCoord.out.bam"
     output:
-        counts=config["working_dir"] + "/featurecounts/{sample}_RNA_counts.tsv",
-        summary=config["working_dir"] + "/featurecounts/{sample}_RNA_counts.tsv.summary"
+        counts=config["working_dir"] + "/featurecounts/{sample}_counts.tsv",
+        summary=config["working_dir"] + "/featurecounts/{sample}_counts.tsv.summary"
     params:
         ends="" if if_SE  else "-p"
     log:
-        log_dir + "/featurecounts/{sample}_RNA.log"
+        log_dir + "/featurecounts/{sample}.log"
     threads:
         32
     conda:
@@ -29,7 +29,7 @@ rule count:
 
 rule combined_counts:
     input:
-        expand(config["working_dir"] + "/featurecounts/{sample}_RNA_counts.tsv",
+        expand(config["working_dir"] + "/featurecounts/{sample}_counts.tsv",
                sample = SAMPLES_ALL if if_SE else SAMPLES_PAIRED)
     output:
         config["results_dir"] + "/combined_gene_counts.tsv"

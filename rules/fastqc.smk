@@ -2,12 +2,11 @@ rule fastqc:
     input:
         get_fastq
     output:
-        zip=config["working_dir"] + "/fastqc/{sample}_RNA_fastqc.zip"
+        zip=config["working_dir"] + "/fastqc/{sample}_fastqc.zip"
     log:
-        log_dir + "/fastqc/{sample}_RNA.log"
+        log_dir + "/fastqc/{sample}.log"
     params:
         outdir=config["working_dir"] + "/fastqc/{sample}",
-        #old_name=config["working_dir"] + "/fastqc/{sample}_fastqc.zip"
     threads: 32
     conda:
         "../envs/fastqc.yml"
